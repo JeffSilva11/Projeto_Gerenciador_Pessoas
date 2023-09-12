@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xml:lang="en"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <script type="text/javascript">
+        //<![CDATA[
+        function start() {
+            PF('statusDialog').show();
+        }
+
+        function stop() {
+            PF('statusDialog').hide();
+        }
+
+        //]]>
+
+
+
+    </script>
+    <title>Lista de Pessoas</title>
+</h:head>
+<f:view>
+    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+              resizable="false">
+        <p:graphicImage name="/images/ajaxloadingbar.gif"/>
+    </p:dialog>
+    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+    <h:body>
+        <h:form id="formPessoas" prependId="false">
+            <p:commandButton value="Recarregar Listagem" action="#{pessoaMB.listarTodos}" ajax="true"
+                             update="tabelaPessoa"/>
+            <p:growl id="mensagens" showDetail="true" autoUpdate="true" closable="true">
+                <p:autoUpdate/>
+            </p:growl>
+            <p:commandButton value="Calcular Salario" action="#{pessoaMB.calcularSalario}" ajax="true"
+                             update="tabelaPessoa"/>
+            <p:dataTable id="tabelaPessoa" var="item" value="#{pessoaMB.pessoas}" prependId="false"
+                         paginator="true" rows="25" emptyMessage="Não há pessoas cadastradas."
+                         rowKey="#{item.id}" selectionMode="single"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
+                         {RowsPerPageDropdown} {Exporters}"
+                         selection="#{pessoaMB.pessoa}"
+                         rowsPerPageTemplate="10,15,25,50,100">
+                <f:facet name="{Exporters}">
+                    <h:commandLink id="exportPDF">
+                        <p:graphicImage name="/images/pdf.png" width="24"/>
+                        <p:dataExporter type="pdf" target="tabelaPessoa" fileName="listaPessoa"/>
+                    </h:commandLink>
+                </f:facet>
+                <f:facet name="header">
+                    <p:outputLabel value="Lista de Pessoas: #{pessoaMB.tamanhoDaLista}"/>
+                </f:facet>
+                <p:column headerText="Id" style="width: 6%;" sortBy="#{item.id}"
+                          filterMatchMode="contains"
+                          filterBy="#{item.id}">
+                    <h:outputText id="outputId"
+                                  value="#{item.id}"/>
+                </p:column>
+                <p:column headerText="Nome" style="width: 25%;" sortBy="#{item.nome}"
+                          filterMatchMode="contains"
+                          filterBy="#{item.nome}">
+                    <h:outputText id="outputNome"
+                                  value="#{item.nome}"/>
+                </p:column>
+                <p:column headerText="Cidade" style="width: 12%;" sortBy="#{item.cidade}" filterBy="#{item.cidade}">
+                    <h:outputText value="#{item.cidade}"/>
+                </p:column>
+                <p:column headerText="Cep" style="width: 11%;" sortBy="#{item.cep}" filterBy="#{item.cep}">
+                    <h:outputText value="#{item.cep}"/>
+                </p:column>
+                <p:column headerText="Email" style="width: 11%;" sortBy="#{item.email}" filterBy="#{item.email}">
+                    <h:outputText value="#{item.email}"/>
+                </p:column>
+                <p:column headerText="Endereco" style="width: 15%;" sortBy="#{item.endereco}"
+                          filterBy="#{item.endereco}">
+                    <h:outputText value="#{item.endereco}"/>
+                </p:column>
+                <p:column headerText="País" style="width: 11%;" sortBy="#{item.pais}" filterBy="#{item.pais}">
+                    <h:outputText value="#{item.pais}"/>
+                </p:column>
+                <p:column headerText="Usuario" style="width: 13%;" sortBy="#{item.nomeUsuario}"
+                          filterBy="#{item.nomeUsuario}">
+                    <h:outputText value="#{item.nomeUsuario}"/>
+                </p:column>
+                <p:column headerText="Telefone" style="width: 14%;" sortBy="#{item.telefone}"
+                          filterBy="#{item.telefone}">
+                    <h:outputText value="#{item.telefone}"/>
+                </p:column>
+                <p:column headerText="Salario" style="width: 12%;" sortBy="#{item.salario}"
+                          filterBy="#{item.salario}">
+                    <h:outputText value="#{item.salario}"/>
+                </p:column>
+                <p:column headerText="Cargo" style="width: 11%;" sortBy="#{item.cargo.nomeCargo}"
+                          filterBy="#{item.cargo.nomeCargo}">
+                    <h:outputText value="#{item.cargo.nomeCargo}"/>
+                </p:column>
+                <p:column headerText="Data nascimento" style="width: 13%;" sortBy="#{item.dataNascimento}"
+                          filterBy="#{item.dataNascimento}">
+                    <h:outputText value="#{item.dataNascimento}"/>
+                </p:column>
+                <p:column style="width:10%;text-align: center" headerText="Acoes" exportable="false">
+                    <p:commandButton update=":formPessoas:pessoaDetail" oncomplete="PF('itemDialog').show()"
+                                     icon="ui-icon-search"
+                                     title="Detalhe">
+                        <f:setPropertyActionListener value="#{item}" target="#{pessoaMB.pessoa}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:dialog header="Detalhes pessoa" widgetVar="itemDialog" modal="true" showEffect="fade" hideEffect="fade"
+                      resizable="false">
+                <p:outputPanel id="pessoaDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty pessoaMB.pessoa}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <h:outputLabel>Pessoa</h:outputLabel>
+                        </f:facet>
+
+                        <h:outputText value="Id"/>
+                        <h:outputText value="#{pessoaMB.getPessoa().id}"/>
+
+                        <h:outputText value="Nome"/>
+                        <h:outputText value="#{pessoaMB.pessoa.nome}"/>
+
+                        <h:outputText value="Cidade"/>
+                        <h:inputText value="#{pessoaMB.pessoa.cidade}" disabled="true"/>
+
+                        <h:outputText value="Email"/>
+                        <h:inputText value="#{pessoaMB.pessoa.email}" disabled="true"/>
+
+                        <h:outputText value="Cep"/>
+                        <h:inputText value="#{pessoaMB.pessoa.cep}" disabled="true"/>
+
+                        <h:outputText value="Endereco"/>
+                        <h:inputText value="#{pessoaMB.pessoa.endereco}" disabled="true"/>
+
+                        <h:outputText value="País"/>
+                        <h:inputText value="#{pessoaMB.pessoa.pais}" disabled="true"/>
+
+                        <h:outputText value="Nome usuário"/>
+                        <h:inputText value="#{pessoaMB.pessoa.nomeUsuario}" disabled="true"/>
+
+                        <h:outputText value="Telefone"/>
+                        <h:inputText value="#{pessoaMB.pessoa.telefone}" disabled="true"/>
+
+                        <h:outputText value="Data nascimento"/>
+                        <h:inputText value="#{pessoaMB.pessoa.dataNascimento}" disabled="true"/>
+
+                        <h:outputText value="Salario"/>
+                        <h:inputText value="#{pessoaMB.pessoa.salario}" disabled="true"/>
+
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" columnClasses="label,value">
+                        <p:button id="btnFechar" value="Fechar" icon="ui-icon-plusthick"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</f:view>
+</html>
