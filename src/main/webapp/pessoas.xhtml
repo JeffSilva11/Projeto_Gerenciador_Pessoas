@@ -23,6 +23,11 @@
 
     </script>
     <title>Lista de Pessoas</title>
+    <style>
+    body, p, h1, h2, h3, h4, h5, h6, span, div, td, th, input, select, textarea {
+        font-size: 12px;
+    }
+    </style>
 </h:head>
 <f:view>
     <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
@@ -30,7 +35,7 @@
         <p:graphicImage name="/images/ajaxloadingbar.gif"/>
     </p:dialog>
     <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
-    <h:body>
+    <h:body> 
         <h:form id="formPessoas" prependId="false">
             <p:commandButton value="Recarregar Listagem" action="#{pessoaMB.listarTodos}" ajax="true"
                              update="tabelaPessoa"/>
@@ -68,7 +73,7 @@
                                   value="#{item.nome}"/>
                 </p:column>
                 <p:column headerText="Cidade" style="width: 12%;" sortBy="#{item.cidade}" filterBy="#{item.cidade}">
-                    <h:outputText value="#{item.cidade}"/>
+                    <h:outputText value="#{item.cidade}" style="font-size: 12px;"/>
                 </p:column>
                 <p:column headerText="Cep" style="width: 11%;" sortBy="#{item.cep}" filterBy="#{item.cep}">
                     <h:outputText value="#{item.cep}"/>
@@ -91,18 +96,18 @@
                           filterBy="#{item.telefone}">
                     <h:outputText value="#{item.telefone}"/>
                 </p:column>
-                <p:column headerText="Salario" style="width: 12%;" sortBy="#{item.salario}"
-                          filterBy="#{item.salario}">
-                    <h:outputText value="#{item.salario}"/>
+                <p:column headerText="Data Nascimento" style="width: 13%;" sortBy="#{item.dataNascimento}"
+                          filterBy="#{item.dataNascimento}">
+                    <h:outputText value="#{item.dataNascimento}"/>
                 </p:column>
                 <p:column headerText="Cargo" style="width: 11%;" sortBy="#{item.cargo.nomeCargo}"
                           filterBy="#{item.cargo.nomeCargo}">
                     <h:outputText value="#{item.cargo.nomeCargo}"/>
                 </p:column>
-                <p:column headerText="Data nascimento" style="width: 13%;" sortBy="#{item.dataNascimento}"
-                          filterBy="#{item.dataNascimento}">
-                    <h:outputText value="#{item.dataNascimento}"/>
-                </p:column>
+                <p:column headerText="Salario" style="width: 12%;" sortBy="#{item.salario}"
+                          filterBy="#{item.salario}">
+                    <h:outputText value="#{item.salario}"/>
+                </p:column>             
                 <p:column style="width:10%;text-align: center" headerText="Acoes" exportable="false">
                     <p:commandButton update=":formPessoas:pessoaDetail" oncomplete="PF('itemDialog').show()"
                                      icon="ui-icon-search"

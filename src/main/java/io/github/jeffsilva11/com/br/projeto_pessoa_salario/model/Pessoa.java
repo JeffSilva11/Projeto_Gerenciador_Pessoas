@@ -37,11 +37,9 @@ public class Pessoa {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
     private LocalDate dataNascimento;
 
-    private BigDecimal salario;
-
     @ManyToOne
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;
 
-	
+    private BigDecimal salario;
 }

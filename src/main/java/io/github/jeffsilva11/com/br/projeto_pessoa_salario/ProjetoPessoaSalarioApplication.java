@@ -24,6 +24,7 @@ public class ProjetoPessoaSalarioApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoPessoaSalarioApplication.class, args);
+		System.out.println("PROGRAMA INICIADO");
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -31,7 +32,8 @@ public class ProjetoPessoaSalarioApplication {
 	public ServletRegistrationBean facesServletRegistration() {
 		ServletRegistrationBean registration = new ServletRegistrationBean<>(new FacesServlet(), "*.xhtml");
 		registration.setLoadOnStartup(1);
-		registration.addUrlMappings("*.jr");
+		registration.addUrlMappings("*.lista");
+		registration.addUrlMappings("*.cadastro.pessoa");
 		return registration;
 	}
 

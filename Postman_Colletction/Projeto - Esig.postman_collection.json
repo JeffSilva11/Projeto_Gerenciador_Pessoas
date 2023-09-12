@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "586d0f70-5c77-4ef0-9c36-ba8b3a769899",
+		"name": "Projeto - Esig",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pessoa",
+			"item": [
+				{
+					"name": "Cadastro - Pessoa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVubm9kYW55ZWwiLCJleHAiOjE2ODkxMDg0MDl9.G5590vqaSPMpabOjjxa4Wz4rsQpOqokDQy7kKqsHTnpD3kWdYgXPTSS67xezKc4_ncb1u68oSwBZ3BwvCriCMg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Teste\",\r\n    \"cidade\": \"Rio de Janeiro\",\r\n    \"email\": \"MuriloDiasAzevedo@armyspy.com\",\r\n    \"senha\": \"\",\r\n    \"cep\": \"25755-351\",\r\n    \"endereco\": \"Vila de Secretario 18\",\r\n    \"pais\": \"Brazil\",\r\n    \"nomeUsuario\": \"Cousine\",\r\n    \"telefone\": \"(24) 7129-8842\",\r\n    \"dataNascimento\": \"12/05/1945\",\r\n    \"idCargo\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/pessoas/cadastrar",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"pessoas",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar - Pessoa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVubm9kYW55ZWwiLCJleHAiOjE2ODkxMDg0MDl9.G5590vqaSPMpabOjjxa4Wz4rsQpOqokDQy7kKqsHTnpD3kWdYgXPTSS67xezKc4_ncb1u68oSwBZ3BwvCriCMg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/pessoas/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"pessoas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Calcular Salario - Pessoa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVubm9kYW55ZWwiLCJleHAiOjE2ODkxMDkzNTR9.a6asyHaWDOJ8c540kP4nKh-mpmTcnIsOiTjShRJ0m03MOYKFaQeGsRfxu9MaN95MTfLKhYmJL1JRwLKvhvF2jw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/pessoas/calcular",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"pessoas",
+								"calcular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar - Pessoa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicnVubm9kYW55ZWwiLCJleHAiOjE2ODkxMDg0MDl9.G5590vqaSPMpabOjjxa4Wz4rsQpOqokDQy7kKqsHTnpD3kWdYgXPTSS67xezKc4_ncb1u68oSwBZ3BwvCriCMg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/pessoas",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"pessoas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar - Pessoa",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/pessoas/atualizar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pessoas",
+								"atualizar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cargo",
+			"item": [
+				{
+					"name": "Editar - Cargo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCargo\": \"Técnico\",\r\n    \"salario\": 2600\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/cargo/editar/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"cargo",
+								"editar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar  - Cargo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/cargo/cadastrar",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"cargo",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
