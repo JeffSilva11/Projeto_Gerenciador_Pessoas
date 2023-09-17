@@ -1,22 +1,33 @@
 package io.github.jeffsilva11.com.br.projeto_pessoa_salario.controller;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import io.github.jeffsilva11.com.br.projeto_pessoa_salario.dto.request.CargoRequestDTO;
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.model.Cargo;
-import io.github.jeffsilva11.com.br.projeto_pessoa_salario.services.CargoService;
+import io.github.jeffsilva11.com.br.projeto_pessoa_salario.repository.CargoRepository;
 
 @RestController
 @RequestMapping("/cargo")
 public class CargoController {
 
-    @Autowired
-    private CargoService cargoService;
+	/*
+	@Autowired 
+	private CargoService cargoService;
+    */
+	private CargoRepository repository;
 
+	CargoController(CargoRepository cargoRepository) {
+	       this.repository = cargoRepository;
+	   }
+	   // métodos do CRUD aqui
+	
+	@PostMapping ("/create")
+	public Cargo create(@RequestBody Cargo cargo){
+	   return repository.save(cargo);
+	}
+/*
     @PostMapping("/cadastrar")
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrarCargo(@RequestBody CargoRequestDTO cargoRequestDTO) {
@@ -33,4 +44,5 @@ public class CargoController {
     public void editarCargo(@PathVariable Long id, @RequestBody CargoRequestDTO cargoRequestDTO) {
         cargoService.editarCargo(id, cargoRequestDTO);
     }
+    */
 }

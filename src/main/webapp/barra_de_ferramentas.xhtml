@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="./css/skin.css"/>
+    <title>Pessoas Web - Principal</title>
+    <style>
+             body, p, h1, h2, h3, h4, h5, h6, span, div, td, th, input, select, textarea {
+        font-size: 14px;
+        }
+    </style>   
+    
+</h:head>
+
+<h:body>
+
+    <h:form id="barraDeFerramentas">
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:menuButton value="PESSOAS">
+                    <p:menuitem value="Cadastrar Pessoa" url="pagina1" ajax="false" style="color: #FF0000;"/>
+                    <p:menuitem value="Listar/Alterar/Remover" url="http://localhost:8081/pessoas.xhtml" ajax="false"/>
+                    <p:menuitem value="Calcular Salário" url="http://localhost:8081/calcular_salario.xhtml" ajax="false"/>
+                </p:menuButton>
+                <p:menuButton value="CARGO">
+                    <p:menuitem value="Cadastrar Cargo" url="http://localhost:8081/cargo_cadastrar.xhtml" ajax="false"/>
+                    <p:menuitem value="Listar/Alterar/Remover" url="http://localhost:8081/cargo_listar.xhtml" ajax="false"/>
+                </p:menuButton>
+                <p:menuButton value="USUÁRIOS">
+                    <p:menuitem value="Cadastrar Usuário" url="pagina1" ajax="false"/>
+                    <p:menuitem value="Listar/Alterar/Remover" url="pagina2" ajax="false"/>
+                </p:menuButton>
+                <!--<p:commandButton value="Menu 2" action="pagina3" ajax="false"/>-->
+            </p:toolbarGroup>
+        </p:toolbar>
+    </h:form>
+
+</h:body>
+</html>

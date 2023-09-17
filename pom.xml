@@ -96,6 +96,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
+			<!--<version>5.0.0</version> - IMCOMPATÍVEL-->
 			<version>4.1.1</version>
 		</dependency>
 		<dependency>
@@ -125,6 +126,18 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <version>5.3.10</version> <!-- Use a versão mais recente do Spring Core -->
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>5.3.10</version> <!-- Use a versão mais recente do Spring JDBC -->
+		</dependency>
+		
 	</dependencies>
 
 	<build>

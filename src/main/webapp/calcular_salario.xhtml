@@ -37,11 +37,11 @@
     <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
     <h:body> 
         <h:form id="formPessoas" prependId="false">
-            <p:commandButton value="Recarregar Listagem" action="#{pessoaMB.listarTodos}" ajax="true"
-                             update="tabelaPessoa"/>
             <p:growl id="mensagens" showDetail="true" autoUpdate="true" closable="true">
                 <p:autoUpdate/>
             </p:growl>
+            <p:commandButton value="Calcular Salario" action="#{pessoaMB.calcularSalario}" ajax="true"
+                             update="tabelaPessoa"/>
             <p:dataTable id="tabelaPessoa" var="item" value="#{pessoaMB.pessoas}" prependId="false"
                          paginator="true" rows="25" emptyMessage="Não há pessoas cadastradas."
                          rowKey="#{item.id}" selectionMode="single"

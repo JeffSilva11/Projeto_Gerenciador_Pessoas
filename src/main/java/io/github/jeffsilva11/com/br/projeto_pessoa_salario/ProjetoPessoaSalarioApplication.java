@@ -33,7 +33,7 @@ public class ProjetoPessoaSalarioApplication {
 		ServletRegistrationBean registration = new ServletRegistrationBean<>(new FacesServlet(), "*.xhtml");
 		registration.setLoadOnStartup(1);
 		registration.addUrlMappings("*.lista");
-		registration.addUrlMappings("*.cadastro.pessoa");
+		//registration.addUrlMappings("*.cadastro.pessoa");
 		return registration;
 	}
 

@@ -1,30 +1,22 @@
 package io.github.jeffsilva11.com.br.projeto_pessoa_salario.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Entity
 public class Usuario {
+	  private String login;
+	  private String senha;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	  public String getLogin() {
+	    return login;
+	  }
 
-    private String email;
+	  public void setLogin(String login) {
+	    this.login = login;
+	  }
 
-    private String senha;
+	  public String getSenha() {
+	    return senha;
+	  }
 
-    private boolean admin;
-
-}
+	  public void setSenha(String senha) {
+	    this.senha = senha;
+	  }
+	}   
