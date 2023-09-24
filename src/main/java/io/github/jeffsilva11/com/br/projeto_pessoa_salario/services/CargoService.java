@@ -12,4 +12,5 @@ public interface CargoService {
     void editarCargo(Long id, CargoRequestDTO cargoRequestDTO);
 
     List<Cargo> listarCargo();
+    
 }

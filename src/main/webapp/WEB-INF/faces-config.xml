@@ -11,7 +11,28 @@
 
     <converter>
         <converter-id>entityConverter</converter-id>
-        <converter-class>io.github.brunnodanyel.com.projetosalario.converter.EntityConverter</converter-class>
+        <converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.EntityConverter</converter-class>
     </converter>
+    
+    <converter>
+        <converter-id>entityConverter2</converter-id>
+        <converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.EntityConverter2</converter-class>
+    </converter>
+    
+    <converter>
+    	<converter-id>dataConverter</converter-id>
+    	<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.DataConverter</converter-class>
+    </converter>
+    
+    <converter>
+    	<converter-id>cargoConverter</converter-id>
+    	<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.CargoConverter</converter-class>
+    </converter>
+    
+    <converter>
+    	<converter-id>cargoConverter2</converter-id>
+    	<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.CargoConverter2</converter-class>
+    </converter>
+
 
 </faces-config>

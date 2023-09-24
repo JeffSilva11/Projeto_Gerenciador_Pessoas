@@ -47,4 +47,8 @@ public class CargoServiceImpl implements CargoService {
             return cargoRepository.save(cargo);
         }).orElseThrow(() -> new EntidadeNaoEncontrada("Cargo não encontrado!"));
     }
+
+    public Cargo buscarCargo(Long id) {
+        return cargoRepository.findById(id).orElse(null);
+    }
 }

@@ -29,30 +29,22 @@ import lombok.Setter;
 public class CargoMB implements Serializable {
 
     private static final long serialVersionUID = 1L;
+        
+    @Getter
+    @Setter
+	private Cargo cargo = new Cargo(); // Inicialize o objeto cargo aqui
+     
+    @Autowired
+    private CargoRepository cargoRepository; 
+
+    //MÉTODOS CRUD
     
     @PersistenceContext
     private EntityManager entityManager;
     
-    @Getter
-    @Setter
-	private Cargo cargo = new Cargo(); // Inicialize o objeto cargo aqui
-       
-    //public CargoMB() {
-    //    if (cargo == null) {
-    //        cargo = new Cargo();
-    //    }
-   // }
-    @Autowired
-    private CargoRepository cargoRepository; 
-
-    
-    //public CargoMB() {
-   //     cargo = new Cargo(); // Inicialize o objeto cargo aqui
-   // }
-    
 	@Autowired
     private JdbcTemplate jdbcTemplate;
-    
+		    
     public void cadastrarCargo () {
 	    	if (cargo.getId() == null) {  
 	    	String sql = "SELECT nextval('cargo_id_seq')";  // Consulta SQL para obter o próximo valor da sequência
@@ -66,8 +58,6 @@ public class CargoMB implements Serializable {
 		        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		        try {
 		        	  externalContext.redirect("cargo_cadastrar.xhtml");
-		            //externalContext.redirect("listar_cargo.xhtml");
-		            
 		        } catch (IOException e) {   // Lida com exceções de redirecionamento
 		        }
 		        //return; // Ou retorne uma string de navegação válida se necessário
@@ -81,19 +71,12 @@ public class CargoMB implements Serializable {
     //}
 
     public void editarCargo () {
-    	//if (cargoId != null) {
-    	//limpar();
-    	//cargo = findById(cargoId);
             if (cargo != null) {
                 cargoRepository.save(cargo);
                 limpar();            
 		        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		        try {
-		        	//limpar();
 		        	externalContext.redirect("cargo_listar.xhtml");
-		            //externalContext.redirect("listar_cargo.xhtml");
-		            //externalContext.redirect("principal.xhtml");
-		            
 		        } catch (IOException e) {   // Lida com exceções de redirecionamento
 		        }
             }
@@ -105,10 +88,7 @@ public class CargoMB implements Serializable {
             
                 ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		        try {
-		        	//limpar();
-		        	//if (cargo == null) {
-		                externalContext.redirect("cargo_listar.xhtml");
-		           // }
+	                externalContext.redirect("cargo_listar.xhtml");
 		            } catch (IOException e) {   // Lida com exceções de redirecionamento
 		            	e.printStackTrace();
 		            }
@@ -117,19 +97,22 @@ public class CargoMB implements Serializable {
      
     private void limpar() {
       	cargo = new Cargo();
-		
     }
        
     public List<Cargo> listarCargos() {
          return entityManager.createQuery("SELECT c FROM Cargo c order by id", Cargo.class).getResultList();
     }
         
+    public List<Cargo> listarCargosPessoa() {
+        return entityManager.createQuery("SELECT c FROM Cargo c order by nome_cargo", Cargo.class).getResultList();
+   }
+    
     public Cargo findById(Long cargoId) {
         // Use o método findById do seu repositório Spring Data JPA para buscar o cargo por ID
         return cargoRepository.findById(cargoId)
             .orElseThrow(() -> new ResourceNotFoundException("Cargo not found with id " + cargoId));
     }
-    
+       
     public String visualizarCargo(Long cargoId) {
         cargo = findById(cargoId); // Suponha que você tenha um método findById no seu serviço
         return "cargo_visualizar.xhtml"; // Redirecionar para a página de visualização de cargo
@@ -168,6 +151,7 @@ public class CargoMB implements Serializable {
         listarCargos();
     }
     
-    
-    
+    public Cargo buscarCargo(Long id) {
+        return cargoRepository.findById(id).orElse(null);
+    }
 }

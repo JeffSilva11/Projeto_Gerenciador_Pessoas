@@ -20,14 +20,16 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Cargo {
 	
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+	private Long id;
+	//public Long id;
+   
     private String nomeCargo;
 
     private BigDecimal salario;
 
     @OneToMany(mappedBy = "cargo")
     private List<Pessoa> pessoas = new ArrayList<>();
+    
 }
