@@ -9,14 +9,14 @@
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
 
+	<converter>
+		<converter-for-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.model.Cargo</converter-for-class>
+		<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.EntityConverter</converter-class>
+	</converter>
+
     <converter>
         <converter-id>entityConverter</converter-id>
         <converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.EntityConverter</converter-class>
-    </converter>
-    
-    <converter>
-        <converter-id>entityConverter2</converter-id>
-        <converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.EntityConverter2</converter-class>
     </converter>
     
     <converter>
@@ -24,15 +24,12 @@
     	<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.DataConverter</converter-class>
     </converter>
     
-    <converter>
-    	<converter-id>cargoConverter</converter-id>
-    	<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.CargoConverter</converter-class>
-    </converter>
-    
-    <converter>
-    	<converter-id>cargoConverter2</converter-id>
-    	<converter-class>io.github.jeffsilva11.com.br.projeto_pessoa_salario.converter.CargoConverter2</converter-class>
-    </converter>
-
+	<navigation-rule>
+        <from-view-id>/pagina_origem.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>redirecionar_para_pagina</from-outcome>
+            <to-view-id>/pagina_destino.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>

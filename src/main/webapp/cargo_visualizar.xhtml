@@ -30,6 +30,16 @@
         font-size: 14px;
         }
     </style>
+
+    <script>
+    function preventFormSubmit(event) {
+        if (event.keyCode === 13) { // Verifica se a tecla pressionada é Enter (código 13)
+            event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+            return false; // Retorna falso para evitar a submissão do formulário
+        }
+        return true; // Outras teclas são permitidas
+    }
+    </script>
    
     </h:head>
                      <!-- Inclua a barra de ferramentas usando <ui:include> -->
@@ -45,10 +55,10 @@
                     <p:inputText id="id" value="#{cargoMB.cargo.id}" required="true" style="width: 300px;" maxlength="10" disabled="true"/>
 
                     <h:outputLabel for="nomeCargo" value="Cargo:" />
-                    <p:inputText id="nomeCargo" value="#{cargoMB.cargo.nomeCargo}" required="true" style="width: 300px;" maxlength="20" readonly="true"/>
+                    <p:inputText id="nomeCargo" value="#{cargoMB.cargo.nomeCargo}" required="true" style="width: 300px;" maxlength="20" readonly="true" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="salario" value="Salário:" />
-                    <p:inputText id="salario" value="#{cargoMB.cargo.salario}" required="true" style="width: 300px;" maxlength="10" readonly="true"/>
+                    <p:inputText id="salario" value="#{cargoMB.cargo.salario}" required="true" style="width: 300px;" maxlength="10" readonly="true" onkeydown="return preventFormSubmit(event)"/>
 
                 </h:panelGrid>
          

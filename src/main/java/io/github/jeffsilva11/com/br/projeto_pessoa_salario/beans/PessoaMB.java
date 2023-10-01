@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.client.RestTemplate;
@@ -77,14 +79,6 @@ public class PessoaMB implements Serializable {
         return entityManager.createQuery("SELECT c FROM Cargo c order by nome_cargo", Cargo.class).getResultList();
    }
    
-   // @Getter
-   // @Setter
-   // private PessoaRequestDTO pessoaRequestDTO;
-
-   // public PessoaMB() {
-   //     pessoaRequestDTO = new PessoaRequestDTO();
-   // }
-
     public void calcularSalario() {
         restTemplate.put("http://localhost:8081/pessoas/calcular", null);
         listarTodos();
@@ -120,50 +114,49 @@ public class PessoaMB implements Serializable {
 	     this.jdbcTemplate = jdbcTemplate;
 	    }
 	    
-	public void cadastrarPessoa() {
-			if (pessoa.getId() == null) {
-		        String sql = "SELECT nextval('pessoa_id_seq')"; // Consulta SQL para obter o próximo valor da sequência
-		        Long proximoId = jdbcTemplate.queryForObject(sql, Long.class); // Executar a consulta e obter o próximo valor da sequência
-		        pessoa.setId(proximoId); // Definir o ID gerado no objeto Pessoa
-		    }
-			pessoaRepository.save(pessoa);
-		    limpar();
-		    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-	        try {
-	        	  externalContext.redirect("pessoa_cadastrar.xhtml");
-	        } catch (IOException e) {   // Lida com exceções de redirecionamento
-	        }
-	        //return; // Ou retorne uma string de navegação válida se necessário
-	    }
-	
-	public void editarPessoa () {
-        if (pessoa != null) {
-        	pessoaRepository.save(pessoa);
-            limpar();            
-	        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-	        try {
-	        	externalContext.redirect("pessoa_listar.xhtml");
-	        } catch (IOException e) {   // Lida com exceções de redirecionamento
-	        }
-        }
-}
-	
-	public void cancelarPessoa () {
-        if (pessoa != null) {
-            limpar(); 
-        
-            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-	        try {
-                externalContext.redirect("pessoa_listar.xhtml");
-	            } catch (IOException e) {   // Lida com exceções de redirecionamento
-	            	e.printStackTrace();
-	            }
-	    }
- }
     private void limpar() {
       	pessoa = new Pessoa();
     }
     
+    @SuppressWarnings("unused")
+	private void limparNull() {
+    	pessoa = null;
+    }
+	
+	private void limparJavaScript() { //LIMPAR COM JAVASCRIPT
+		PrimeFaces.current().executeScript("limparFormulario();");
+		pessoa.setNome("");
+		pessoa.setCidade("");
+		pessoa.setCep("");
+		pessoa.setEmail("");
+		pessoa.setEndereco("");
+		pessoa.setPais("");
+		pessoa.setNomeUsuario("");
+		pessoa.setTelefone("");
+		pessoa.setDataNascimento(null);
+		pessoa.setCargo(null);
+	}
+	
+	public void cadastrarPessoa() {
+	    if (pessoa.getId() == null) {  
+	        String sql = "SELECT nextval('pessoa_id_seq')";
+	        Long proximoId = jdbcTemplate.queryForObject(sql, Long.class);
+	        pessoa.setId(proximoId);
+	    }
+	    try {
+	    	pessoaRepository.save(pessoa);
+	        limparJavaScript();
+	        
+	        FacesMessage msg = new FacesMessage("Pessoa Cadastrado com Sucesso!");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	       	        
+	    } catch (Exception e) {
+	        // Tratar exceções, se houver algum erro ao salvar o usuário.
+	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Cadastrar Pessoa", null);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+}
+   
     public Cargo buscarCargo(Long id) {
         return cargoRepository.findById(id).orElse(null);
     }
@@ -181,25 +174,69 @@ public class PessoaMB implements Serializable {
     
     public String visualizarPessoa(Long pessoaId) {
     	pessoa = findById(pessoaId); // Suponha que você tenha um método findById no seu serviço
-        return "pessoa_visualizar.xhtml"; // Redirecionar para a página de visualização de cargo
+        return "pessoa_visualizar.xhtml"; // Redirecionar para a página de visualização de pessoa
     }
     
     public String visualizarPessoaEditar(Long pessoaId) {
     	pessoa = findById(pessoaId); // Suponha que você tenha um método findById no seu serviço
-        return "pessoa_editar.xhtml"; // Redirecionar para a página de visualização de cargo
+        return "pessoa_editar.xhtml"; // Redirecionar para a página de visualização de pessoa
     }
     
-    public String apagarPessoa(Long pessoaId) {
-    		pessoa = findById(pessoaId); // Suponha que você tenha um método findById no seu serviço
-    		pessoaRepository.delete(pessoa);
-    		limpar();
+    public String visualizarPessoaApagar(Long pessoaId) {
+    	pessoa = findById(pessoaId); // Suponha que você tenha um método findById no seu serviço
+		return "pessoa_apagar.xhtml"; // Redirecionar para a página de visualização de pessoa
+   }
+    
+    public void cancelarPessoa () {
+        if (pessoa != null) {
+            limpar(); 
+        
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+	        try {
+                externalContext.redirect("pessoa_listar.xhtml");
+	            } catch (IOException e) {   // Lida com exceções de redirecionamento
+	            	e.printStackTrace();
+	            }
+	    }
+ }
+    
+	public void editarPessoa () {
+        if (pessoa != null) {
+        	pessoaRepository.save(pessoa);
+            limpar();            
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().getFlash().setKeepMessages(true); // Mantém as mensagens entre as páginas - Abordagem chamada "FlashScope".
+		    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa Alterada com Sucesso", null));
 	        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 	        try {
-	            externalContext.redirect("pessoa_listar.xhtml");
+	        	externalContext.redirect("pessoa_listar.xhtml");
 	        } catch (IOException e) {   // Lida com exceções de redirecionamento
 	        }
-	        return null; // Ou retorne uma string de navegação válida se necessário
+        }
+}
+	
+    //public String apagarPessoa(Long pessoaId) {
+    public void apagarPessoa() {
+      		//pessoa = findById(pessoaId); // Suponha que você tenha um método findById no seu serviço
+	    	if (pessoa != null) {
+	    		try {
+		    		pessoaRepository.delete(pessoa);
+		    		limpar();
+		    		// Se a operação for bem-sucedida
+					FacesContext facesContext = FacesContext.getCurrentInstance();
+			        facesContext.getExternalContext().getFlash().setKeepMessages(true); // Mantém as mensagens entre as páginas - Abordagem chamada "FlashScope".
+				    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa Excluída com Sucesso", null));
+				    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			        try {
+			            externalContext.redirect("pessoa_listar.xhtml");
+			        } catch (IOException e) {   // Lida com exceções de redirecionamento
+			        }
+	    		} catch (Exception e) {
+	    		    // Se ocorrer qualquer outra exceção
+	    		    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Excluir Pessoa!", e.getMessage()));
+	    	    }
 	    }
+    }
     
     //<<VER TAMANHO DA LISTA>>
     public int contarPessoas() {

@@ -24,7 +24,7 @@
         <p:toolbar>
             <p:toolbarGroup align="left">
                 <p:menuButton value="PESSOAS">
-                    <p:menuitem value="Cadastrar Pessoa" url="http://localhost:8081/pessoa_cadastrar.xhtml" ajax="false" style="color: #FF0000;"/>
+                    <p:menuitem value="Cadastrar Pessoa" url="http://localhost:8081/pessoa_cadastrar.xhtml" ajax="false" />
                     <p:menuitem value="Listar/Alterar/Remover" url="http://localhost:8081/pessoa_listar.xhtml" ajax="false"/>
                     <p:menuitem value="Listar/OLD" url="http://localhost:8081/pessoas.xhtml" ajax="false"/>
                     <p:menuitem value="Calcular Salário" url="http://localhost:8081/calcular_salario.xhtml" ajax="false"/>
@@ -34,11 +34,17 @@
                     <p:menuitem value="Listar/Alterar/Remover" url="http://localhost:8081/cargo_listar.xhtml" ajax="false"/>
                 </p:menuButton>
                 <p:menuButton value="USUÁRIOS">
-                    <p:menuitem value="Cadastrar Usuário" url="pagina1" ajax="false"/>
-                    <p:menuitem value="Listar/Alterar/Remover" url="pagina2" ajax="false"/>
+                    <p:menuitem value="Cadastrar Usuário" url="http://localhost:8081/usuario_cadastrar.xhtml" ajax="false"/>
+                    <p:menuitem value="Listar/Alterar/Remover" url="http://localhost:8081/usuario_listar.xhtml" ajax="false"/>
                 </p:menuButton>
                 <!--<p:commandButton value="Menu 2" action="pagina3" ajax="false"/>-->
+                
             </p:toolbarGroup>
+
+            <p:toolbarGroup align="right">
+                <p:commandButton value="Sair" onclick="window.location.href='http://localhost:8081/login.xhtml';" styleClass="button-margin" />
+            </p:toolbarGroup>
+
         </p:toolbar>
     </h:form>
 

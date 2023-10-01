@@ -30,8 +30,8 @@
         font-size: 14px;
         }
     </style>
-   
-   <script>
+
+    <script>
     function preventFormSubmit(event) {
         if (event.keyCode === 13) { // Verifica se a tecla pressionada é Enter (código 13)
             event.preventDefault(); // Impede o comportamento padrão de envio do formulário
@@ -40,15 +40,16 @@
         return true; // Outras teclas são permitidas
     }
     </script>
-
+   
     </h:head>
-                     <!-- Inclua a barra de ferramentas usando <ui:include> -->
+                <!-- Inclua a barra de ferramentas usando <ui:include> -->
                 <ui:include src="barra_de_ferramentas.xhtml" />
 
     <h:body>
-
+                
         <h:form>
-         
+            <p:messages id="messages" showDetail="false" autoUpdate="true" />
+            
             <p:panel header="Detalhes da Pessoa">
                 <h:panelGrid columns="2">
                     <h:outputLabel for="id" value="ID:" />
@@ -70,16 +71,16 @@
                     <p:inputText id="endereco" value="#{pessoaMB.pessoa.endereco}" required="true" style="width: 300px;" maxlength="60" readonly="true" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="pais" value="País:" />
-                    <p:inputText id="pais" value="#{pessoaMB.pessoa.pais}" required="true" style="width: 300px;" maxlength="20" readonly="true" onkeydown="return preventFormSubmit(event)"/>     
+                    <p:inputText id="pais" value="#{pessoaMB.pessoa.pais}" required="true" style="width: 300px;" maxlength="20" readonly="true" onkeydown="return preventFormSubmit(event)"/>    
 
                     <h:outputLabel for="usuario" value="Usuário:" />
-                    <p:inputText id="usuario" value="#{pessoaMB.pessoa.nomeUsuario}" required="true" style="width: 300px;" maxlength="20" readonly="true" onkeydown="return preventFormSubmit(event)"/>              
+                    <p:inputText id="usuario" value="#{pessoaMB.pessoa.nomeUsuario}" required="true" style="width: 300px;" maxlength="20" readonly="true" onkeydown="return preventFormSubmit(event)"/>            
 
                     <h:outputLabel for="telefone" value="Telefone:" />
-                    <p:inputText id="telefone" value="#{pessoaMB.pessoa.telefone}" required="true" style="width: 300px;" maxlength="12" readonly="true" onkeydown="return preventFormSubmit(event)"/> 
+                    <p:inputText id="telefone" value="#{pessoaMB.pessoa.telefone}" required="true" style="width: 300px;" maxlength="12" readonly="true" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="datanascimento" value="Data de Nascimento:" />
-                    <p:calendar id="datanascimento" value="#{pessoaMB.pessoa.dataNascimento}" pattern="dd/MM/yyyy" required="true" style="width: 300px;" maxlength="10" readonlyInput="true" readonly="true"  onkeydown="return preventFormSubmit(event)"/>
+                    <p:calendar id="datanascimento" value="#{pessoaMB.pessoa.dataNascimento}" pattern="dd/MM/yyyy" required="true" style="width: 300px;" maxlength="10" readonlyInput="true" readonly="true" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="cargo" value="Cargo:" />
                     <p:inputText id="cargo" value="#{pessoaMB.pessoa.cargo.nomeCargo}" required="true"  style="width: 300px;" maxlength="10" readonly="true" onkeydown="return preventFormSubmit(event)"/>
@@ -87,7 +88,14 @@
                 </h:panelGrid>
          
           <p:commandButton value="voltar" action="#{pessoaMB.cancelarPessoa}" styleClass="button-margin"/>
-                   
+          <p:commandButton value="Apagar" action="#{pessoaMB.apagarPessoa}" update="messages"  styleClass="button-margin"/>
+
+            <p>
+                <span style="color: red; font-weight: bold; text-align: center;">
+                    Os dados serão apagados do banco de dados. Deseja realmente apagar esta Pessoa?
+                </span>
+            </p>     
+
          </p:panel>
         </h:form>
     </h:body>

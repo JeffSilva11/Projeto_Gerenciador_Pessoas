@@ -30,7 +30,15 @@
         font-size: 14px;
         }
     </style>
-    
+
+    <script type="text/javascript">
+    function limparFormulario() {
+        document.getElementById("formCadastro:login").value = "";
+        document.getElementById("formCadastro:senha").value = "";
+        document.getElementById("formCadastro:email").value = "";
+    }
+    </script>
+
     <script>
     function preventFormSubmit(event) {
         if (event.keyCode === 13) { // Verifica se a tecla pressionada é Enter (código 13)
@@ -46,28 +54,31 @@
                 <ui:include src="barra_de_ferramentas.xhtml" />
 
     <h:body>
+        <!--<h1>Cadastro de Cargo</h1>-->
 
-        <h:form>
-         <p:messages id="messages" showDetail="true" autoUpdate="true" />
-            <p:panel header="Detalhes do Cargo">
+        <h:form id="formCadastro">
+            <p:messages id="messages" showDetail="false" autoUpdate="true" />
+            
+         <p:panel header="Cadastro de Usuário">
+           
                 <h:panelGrid columns="2">
-                    <h:outputLabel for="id" value="ID:" />
-                    <p:inputText id="id" value="#{cargoMB.cargo.id}" required="true" style="width: 300px;" maxlength="10" disabled="true"/>
+                    <h:outputLabel for="login" value="Login:" />
+                    <p:inputText id="login" value="#{usuarioMB.usuario.login}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
 
-                    <h:outputLabel for="nomeCargo" value="Cargo:" />
-                    <p:inputText id="nomeCargo" value="#{cargoMB.cargo.nomeCargo}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
+                    <h:outputLabel for="senha" value="Senha:" />
+                    <p:inputText id="senha" value="#{usuarioMB.usuario.senha}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
 
-                    <h:outputLabel for="salario" value="Salário:" />
-                    <p:inputText id="salario" value="#{cargoMB.cargo.salario}" required="true" style="width: 300px;" maxlength="10" onkeydown="return preventFormSubmit(event)"/>
+                    <h:outputLabel for="email" value="E-Mail:" />
+                    <p:inputText id="email" value="#{usuarioMB.usuario.email}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
 
                 </h:panelGrid>
          
-            <p:commandButton value="Cancelar" action="#{cargoMB.cancelarCargo}" styleClass="button-margin"/>
-            <p:commandButton value="Alterar" action="#{cargoMB.editarCargo}" update="messages"  styleClass="button-margin"/>
-                        
+          <p:commandButton value="Cancelar" onclick="window.location.href='http://localhost:8081/usuario_listar.xhtml';" styleClass="button-margin"/>
+          <p:commandButton id="cadastrarButton" value="Cadastrar" action="#{usuarioMB.cadastrarUsuario}" update="messages" />
+
+                
          </p:panel>
         </h:form>
     </h:body>
 </body>
 </html>
-

@@ -30,6 +30,50 @@
         font-size: 14px;
         }
     </style>
+
+    <script>
+    function formatarData(input) {
+        var value = input.value;
+        value = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (value.length > 8) {
+            value = value.substring(0, 8); // Limita a 8 dígitos
+        }
+        if (value.length >= 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2);
+        }
+        if (value.length >= 5) {
+            value = value.substring(0, 5) + '/' + value.substring(5);
+        }
+        input.value = value;
+    }
+    </script>
+
+    <script>
+    function formatarTelefone(input) {
+        var value = input.value;
+        value = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (value.length > 11) {
+            value = value.substring(0, 11); // Limita a 11 dígitos
+        }
+        if (value.length >= 2) {
+            value = '(' + value.substring(0, 2) + ')' + value.substring(2);
+        }
+        if (value.length >= 9) {
+            value = value.substring(0, 9) + '-' + value.substring(9);
+        }
+        input.value = value;
+    }
+    </script>
+
+    <script>
+    function preventFormSubmit(event) {
+        if (event.keyCode === 13) { // Verifica se a tecla pressionada é Enter (código 13)
+            event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+            return false; // Retorna falso para evitar a submissão do formulário
+        }
+        return true; // Outras teclas são permitidas
+    }
+    </script>
    
     </h:head>
                  <!-- Inclua a barra de ferramentas usando <ui:include> -->
@@ -42,38 +86,39 @@
             <p:panel header="Detalhes da Pessoa">
                 <h:panelGrid columns="2">
                     <h:outputLabel for="nome" value="Nome:" />
-                    <p:inputText id="nome" value="#{pessoaMB.pessoa.nome}" required="true" style="width: 300px;" maxlength="50" />
+                    <p:inputText id="nome" value="#{pessoaMB.pessoa.nome}" required="true" style="width: 300px;" maxlength="50" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="cidade" value="Cidade:" />
-                    <p:inputText id="cidade" value="#{pessoaMB.pessoa.cidade}" required="true" style="width: 300px;" maxlength="40" />
+                    <p:inputText id="cidade" value="#{pessoaMB.pessoa.cidade}" required="true" style="width: 300px;" maxlength="40" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="cep" value="Cep:" />
-                    <p:inputText id="cep" value="#{pessoaMB.pessoa.cep}" required="true" style="width: 300px;" maxlength="8" />
+                    <p:inputText id="cep" value="#{pessoaMB.pessoa.cep}" required="true" style="width: 300px;" maxlength="8" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="email" value="Email:" />
-                    <p:inputText id="email" value="#{pessoaMB.pessoa.email}" required="true" style="width: 300px;" maxlength="30" />
+                    <p:inputText id="email" value="#{pessoaMB.pessoa.email}" required="true" style="width: 300px;" maxlength="30" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="endereco" value="Endereco:" />
-                    <p:inputText id="endereco" value="#{pessoaMB.pessoa.endereco}" required="true" style="width: 300px;" maxlength="60" />
+                    <p:inputText id="endereco" value="#{pessoaMB.pessoa.endereco}" required="true" style="width: 300px;" maxlength="60" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="pais" value="País:" />
-                    <p:inputText id="pais" value="#{pessoaMB.pessoa.pais}" required="true" style="width: 300px;" maxlength="20" />
+                    <p:inputText id="pais" value="#{pessoaMB.pessoa.pais}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="usuario" value="Usuário:" />
-                    <p:inputText id="usuario" value="#{pessoaMB.pessoa.nomeUsuario}" required="true" style="width: 300px;" maxlength="20" />
+                    <p:inputText id="usuario" value="#{pessoaMB.pessoa.nomeUsuario}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="telefone" value="Telefone:" />
-                    <p:inputText id="telefone" value="#{pessoaMB.pessoa.telefone}" required="true" style="width: 300px;" maxlength="12" />
+                    <p:inputText id="telefone" value="#{pessoaMB.pessoa.telefone}" required="true" style="width: 300px;" maxlength="14" onkeyup="formatarTelefone(this)" onkeydown="return preventFormSubmit(event)"/>
+
 
                     <h:outputLabel for="datanascimento" value="Data de Nascimento:" />
-                    <p:calendar id="datanascimento" value="#{pessoaMB.pessoa.dataNascimento}" required="true" pattern="dd/MM/yyyy" showOn="button" style="width: 300px;" oninput="formatarData(this)" maxlength="10" />
+                    <p:calendar id="datanascimento" value="#{pessoaMB.pessoa.dataNascimento}" required="true" pattern="dd/MM/yyyy" showOn="button" style="width: 300px;" maxlength="10" 
+                    onkeyup="formatarData(this)" onkeydown="return preventFormSubmit(event)"/>
             
-                    <h:outputLabel for="cargo2" value="Cargo:" />
-                    <p:selectOneMenu id="cargo2" value="#{pessoaMB.pessoa.cargo}"  converter="entityConverter" required="false" style="width: 300px;">
+                    <h:outputLabel for="cargo" value="Cargo:" />
+                    <p:selectOneMenu id="cargo" value="#{pessoaMB.pessoa.cargo}" required="false" style="width: 300px;">
                         <f:selectItem itemLabel="Selecione um cargo" itemValue="" />
-                        <f:selectItems value="#{pessoaMB.listarCargosPessoa()}" var="cargo" itemLabel="#{cargo.nomeCargo}" itemValue="#{cargo.id}" />
+                        <f:selectItems value="#{pessoaMB.listarCargosPessoa()}" var="cargo" itemLabel="#{cargo.nomeCargo}" itemValue="#{cargo}" onkeydown="return preventFormSubmit(event)"/>
                     </p:selectOneMenu>
-
 
                 </h:panelGrid>
          

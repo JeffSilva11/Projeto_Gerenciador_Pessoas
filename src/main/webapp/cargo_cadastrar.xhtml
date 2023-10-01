@@ -30,6 +30,24 @@
         font-size: 14px;
         }
     </style>
+
+    <script type="text/javascript">
+    function limparFormulario() {
+        document.getElementById("formCadastro:cargo").value = "";
+        document.getElementById("formCadastro:salario").value = "";
+
+    }
+    </script>
+
+    <script>
+    function preventFormSubmit(event) {
+        if (event.keyCode === 13) { // Verifica se a tecla pressionada é Enter (código 13)
+            event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+            return false; // Retorna falso para evitar a submissão do formulário
+        }
+        return true; // Outras teclas são permitidas
+    }
+    </script>
    
     </h:head>
                  <!-- Inclua a barra de ferramentas usando <ui:include> -->
@@ -38,16 +56,16 @@
     <h:body>
         <!--<h1>Cadastro de Cargo</h1>-->
 
-        <h:form>
-            <p:messages id="messages" showDetail="true" autoUpdate="true" />
+        <h:form id="formCadastro">
+            <p:messages id="messages" showDetail="false" autoUpdate="true" />
          <p:panel header="Cadastro de Cargo">
            
                 <h:panelGrid columns="2">
                     <h:outputLabel for="cargo" value="Cargo:" />
-                    <p:inputText id="cargo" value="#{cargoMB.cargo.nomeCargo}" required="true" style="width: 300px;" maxlength="20" />
+                    <p:inputText id="cargo" value="#{cargoMB.cargo.nomeCargo}" required="true" style="width: 300px;" maxlength="20" onkeydown="return preventFormSubmit(event)"/>
 
                     <h:outputLabel for="salario" value="Salário:" />
-                    <p:inputText id="salario" value="#{cargoMB.cargo.salario}" required="true" style="width: 300px;" maxlength="10" />
+                    <p:inputText id="salario" value="#{cargoMB.cargo.salario}" required="true" style="width: 300px;" maxlength="10" onkeydown="return preventFormSubmit(event)"/>
                 </h:panelGrid>
          
           <p:commandButton value="Cancelar" onclick="window.location.href='http://localhost:8081/cargo_listar.xhtml';" styleClass="button-margin"/>

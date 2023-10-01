@@ -43,7 +43,7 @@
     <h:form>
 
         <p:commandButton value="Voltar" onclick="window.location.href='http://localhost:8081/principal.xhtml';" styleClass="button-margin"/>
-        <p:messages id="messages" showDetail="true" autoUpdate="true" />
+        <p:messages showDetail="false" closable="true" />
        
     <p:panelGrid columns="2">
 
@@ -85,7 +85,7 @@
                     <!--icon="ui-icon-search"-->
                     <p:commandButton icon="ui-icon-search" title="Visualizar" action="#{pessoaMB.visualizarPessoa(pessoa.id)}" styleClass="button-margin"/>
                     <p:commandButton icon="ui-icon-pencil" title="Editar" action="#{pessoaMB.visualizarPessoaEditar(pessoa.id)}" styleClass="button-margin"/>
-                    <p:commandButton icon="ui-icon-trash" title="Apagar" action="#{pessoaMB.apagarPessoa(pessoa.id)}" />
+                    <p:commandButton icon="ui-icon-trash" title="Apagar" action="#{pessoaMB.visualizarPessoaApagar(pessoa.id)}" />
                 </p:column>
 
             </p:dataTable>

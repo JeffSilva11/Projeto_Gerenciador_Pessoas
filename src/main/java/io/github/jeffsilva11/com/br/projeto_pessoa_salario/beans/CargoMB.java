@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 //import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -12,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.web.client.RestTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +21,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.exception.ResourceNotFoundException;
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.model.Cargo;
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.repository.CargoRepository;
+//import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 //import lombok.extern.slf4j.Slf4j;
@@ -32,7 +35,7 @@ public class CargoMB implements Serializable {
         
     @Getter
     @Setter
-	private Cargo cargo = new Cargo(); // Inicialize o objeto cargo aqui
+    private Cargo cargo = new Cargo(); // Inicialize o objeto cargo aqui
      
     @Autowired
     private CargoRepository cargoRepository; 
@@ -45,60 +48,41 @@ public class CargoMB implements Serializable {
 	@Autowired
     private JdbcTemplate jdbcTemplate;
 		    
-    public void cadastrarCargo () {
-	    	if (cargo.getId() == null) {  
-	    	String sql = "SELECT nextval('cargo_id_seq')";  // Consulta SQL para obter o próximo valor da sequência
-	        Long proximoId = jdbcTemplate.queryForObject(sql, Long.class); // Executar a consulta e obter o próximo valor da sequência
-	        cargo.setId(proximoId); // Definir o ID gerado no objeto Cargo
-	    	}
-		       //cargo.setNomeCargo(cargo.getNomeCargo());
-		       // cargo.setSalario(cargo.getSalario());
-		        cargoRepository.save(cargo); 
-		        limpar();
-		        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		        try {
-		        	  externalContext.redirect("cargo_cadastrar.xhtml");
-		        } catch (IOException e) {   // Lida com exceções de redirecionamento
-		        }
-		        //return; // Ou retorne uma string de navegação válida se necessário
-		    }
-		    //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", "Operação realizada com sucesso.")); 
-	        	//} catch (Exception e) {
-       // 		// Em caso de erro, adicione uma mensagem de erro ao contexto JSF
-        //	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Ocorreu um erro ao cadastrar o cargo. Detalhes: " + e.getMessage()));
-       // 		limpar();
-		//}	
-    //}
-
-    public void editarCargo () {
-            if (cargo != null) {
-                cargoRepository.save(cargo);
-                limpar();            
-		        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		        try {
-		        	externalContext.redirect("cargo_listar.xhtml");
-		        } catch (IOException e) {   // Lida com exceções de redirecionamento
-		        }
-            }
-    }
-        	
-    public void cancelarCargo () {
-            if (cargo != null) {
-                limpar(); 
-            
-                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		        try {
-	                externalContext.redirect("cargo_listar.xhtml");
-		            } catch (IOException e) {   // Lida com exceções de redirecionamento
-		            	e.printStackTrace();
-		            }
-		    }
-     }
-     
     private void limpar() {
       	cargo = new Cargo();
     }
-       
+	
+    @SuppressWarnings("unused")
+	private void limparNull() {
+    	cargo = null;
+    }
+	
+	private void limparJavaScript() { //LIMPAR COM JAVASCRIPT
+		PrimeFaces.current().executeScript("limparFormulario();");
+		cargo.setNomeCargo("");
+		cargo.setSalario(null);
+	}
+		
+	public void cadastrarCargo() {
+	    if (cargo.getId() == null) {  
+	        String sql = "SELECT nextval('cargo_id_seq')";
+	        Long proximoId = jdbcTemplate.queryForObject(sql, Long.class);
+	        cargo.setId(proximoId);
+	    }
+	    try {
+	    	cargoRepository.save(cargo);
+	        limparJavaScript();
+	        
+	        FacesMessage msg = new FacesMessage("Cargo Cadastrado com Sucesso!");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	       	        
+	    } catch (Exception e) {
+	        // Tratar exceções, se houver algum erro ao salvar o usuário.
+	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Cadastrar Cargo", null);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+}
+	          
     public List<Cargo> listarCargos() {
          return entityManager.createQuery("SELECT c FROM Cargo c order by id", Cargo.class).getResultList();
     }
@@ -123,18 +107,61 @@ public class CargoMB implements Serializable {
         return "cargo_editar.xhtml"; // Redirecionar para a página de visualização de cargo
     }
     
-    public String apagarCargo(Long cargoId) {
-    	   	cargo = findById(cargoId); // Suponha que você tenha um método findById no seu serviço
-    	    cargoRepository.delete(cargo);
-    		limpar();
+    public String visualizarCargoApagar(Long cargoId) {
+		cargo = findById(cargoId); // Suponha que você tenha um método findById no seu serviço
+		return "cargo_apagar.xhtml"; // Redirecionar para a página de visualização de usuario
+   }
+   	    
+    public void cancelarCargo () {
+        if (cargo != null) {
+            limpar(); 
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+	        try {
+                externalContext.redirect("cargo_listar.xhtml");
+	            } catch (IOException e) {   // Lida com exceções de redirecionamento
+	            	e.printStackTrace();
+	            }
+	    }
+ }
+       
+    public void editarCargo () {
+        if (cargo != null) {
+            cargoRepository.save(cargo);
+            limpar();    
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().getFlash().setKeepMessages(true); // Mantém as mensagens entre as páginas - Abordagem chamada "FlashScope".
+		    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cargo Alterado com Sucesso", null));
 	        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 	        try {
-	            externalContext.redirect("cargo_listar.xhtml");
+	        	externalContext.redirect("cargo_listar.xhtml");
 	        } catch (IOException e) {   // Lida com exceções de redirecionamento
 	        }
-	        return null; // Ou retorne uma string de navegação válida se necessário
-	    }
+        }
+}
     
+  //public String apagarCargo(Long cargoId) {
+    public void apagarCargo() {
+        	   	//cargo = findById(cargoId); // Suponha que você tenha um método findById no seu serviço
+        	if (cargo != null) {
+        		try {
+        			cargoRepository.delete(cargo);
+        			limpar();
+        			// Se a operação for bem-sucedida
+        			FacesContext facesContext = FacesContext.getCurrentInstance();
+        	        facesContext.getExternalContext().getFlash().setKeepMessages(true); // Mantém as mensagens entre as páginas - Abordagem chamada "FlashScope".
+        		    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cargo Excluído com Sucesso", null));
+        		    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        		    try {
+    	                externalContext.redirect("cargo_listar.xhtml");
+    		    	} catch (IOException e) {   // Lida com exceções de redirecionamento
+    		    	}
+        		} catch (Exception e) {
+        		    // Se ocorrer qualquer outra exceção
+        		    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao excluir Cargo: Há uma ou mais Pessoas associadas a este cargo!", e.getMessage()));
+        	    }
+ 	    }
+    }
+          	
     //<<VER TAMANHO DA LISTA>>
     public int contarCargos() {
         List<Cargo> cargos = listarCargos(); // Chama o método para obter a lista
@@ -154,4 +181,17 @@ public class CargoMB implements Serializable {
     public Cargo buscarCargo(Long id) {
         return cargoRepository.findById(id).orElse(null);
     }
+	
+	public Cargo getCargo(Long valueOf) {
+        if (valueOf == null){
+            throw new IllegalArgumentException("no id provided");
+        }
+        for (Cargo cargo : listarCargos()){
+            if (valueOf.equals(cargo.getId())){
+                return cargo;
+            }
+        }
+        return null;
+    }
+
 }

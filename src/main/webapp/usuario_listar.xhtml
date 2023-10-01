@@ -11,10 +11,6 @@
         <script type="text/javascript" src="primefaces.js"></script>
             <meta charset="UTF-8" />
      <style>
-        .mensagem-sucesso {
-            color: green; /* Cor da mensagem de sucesso */
-            font-weight: bold;
-        }
         .input-container {
             display: flex;
             flex-direction: column;
@@ -47,38 +43,38 @@
     <h:form>
 
         <p:commandButton value="Voltar" onclick="window.location.href='http://localhost:8081/principal.xhtml';" styleClass="button-margin"/>
-        <p:messages showDetail="false" closable="true" />
-
+        <p:messages id="messages" showDetail="false" autoUpdate="true" />
+       
     <p:panelGrid columns="2">
-        
-        <p:panel header="Lista de Cargos (#{cargoMB.contarCargos()})" style="text-align: center;">
+
+        <p:panel header="Lista de Usuários (#{usuarioMB.contarUsuarios()})" style="text-align: center;">
 
 
-           <p:dataTable id="cargosTable" value="#{cargoMB.listarCargos()}" var="cargo" 
-                         paginator="true" rows="25" emptyMessage="Não há pessoas cadastradas."
+           <p:dataTable id="usuariosTable" value="#{usuarioMB.listarUsuario()}" var="usuario" 
+                         paginator="true" rows="25" emptyMessage="Não há Usuarios Cadastrados."
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
                          {RowsPerPageDropdown} {Exporters}"
-                         selection="#{cargoMB.cargo}"
+                         selection="#{usuarioMB.usuario}"
                          rowsPerPageTemplate="10,15,25,50,100,1000,5000">
-            <!--  <p:dataTable value="#{cargoMB.listarCargos()}" var="cargo" rows="10" paginator="true">-->
+            <!--  <p:dataTable value="#{usuarioMB.listarCargos()}" var="cargo" rows="10" paginator="true">-->
                 <!-- Suas colunas -->
                    <!-- <f:facet name="header">-->
                     <f:facet name="{Exporters}">
                     <h:commandLink id="exportPDF">
                         <p:graphicImage name="/images/pdf.png" width="24"/>
-                        <p:dataExporter type="pdf" target="cargosTable" fileName="Lista de Cargos" orientation="landscape"/>
+                        <p:dataExporter type="pdf" target="usuariosTable" fileName="Lista de Usuários" orientation="landscape"/>
                         <h:outputStylesheet name="css/pdf-export-styles.css"/>
                     </h:commandLink>                        
                     </f:facet>
                 
                 <p:column headerText="ID" style="width: 5%; text-align: left;">
-                    <h:outputText value="#{cargo.id}" />
+                    <h:outputText value="#{usuario.id}" />
                 </p:column>
-                <p:column headerText="Cargo" style="text-align: left;">
-                    <h:outputText value="#{cargo.nomeCargo}" />
+                <p:column headerText="Login" style="text-align: left;">
+                    <h:outputText value="#{usuario.login}" />
                 </p:column>
-                <p:column headerText="Salário" style="text-align: left;">
-                    <h:outputText value="R$ #{cargo.salario}">
+                <p:column headerText="E-mail" style="text-align: left;">
+                    <h:outputText value="#{usuario.email}">
                        <f:convertNumber type="currency" currencySymbol="R$" groupingUsed="true" />
                     </h:outputText>
                 </p:column>
@@ -87,9 +83,9 @@
                  <!--Adicione uma coluna de ações -->
                 <p:column headerText="Ações" style="width: 119px;">
                     <!--icon="ui-icon-search"-->
-                    <p:commandButton icon="ui-icon-search" title="Visualizar" action="#{cargoMB.visualizarCargo(cargo.id)}" styleClass="button-margin"/>
-                    <p:commandButton icon="ui-icon-pencil" title="Editar" action="#{cargoMB.visualizarCargoEditar(cargo.id)}" styleClass="button-margin"/>
-                    <p:commandButton icon="ui-icon-trash" title="Apagar" action="#{cargoMB.visualizarCargoApagar(cargo.id)}" />
+                    <p:commandButton icon="ui-icon-search" title="Visualizar" action="#{usuarioMB.visualizarUsuario(usuario.id)}" styleClass="button-margin"/>
+                    <p:commandButton icon="ui-icon-pencil" title="Editar" action="#{usuarioMB.visualizarUsuarioEditar(usuario.id)}" styleClass="button-margin"/>
+                    <p:commandButton icon="ui-icon-trash" title="Apagar" action="#{usuarioMB.visualizarUsuarioApagar(usuario.id)}" />
                 </p:column>
 
             </p:dataTable>
