@@ -1,23 +1,31 @@
 package io.github.jeffsilva11.com.br.projeto_pessoa_salario.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.math.BigDecimal;
+
+//import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+//import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Entity
 public class PessoaSalario {
 
     @Id
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String nome;
 
     private BigDecimal salario;
+    
+//    @OneToOne
+//    @JoinColumn(name = "id")
+//    private Pessoa pessoa;
 }

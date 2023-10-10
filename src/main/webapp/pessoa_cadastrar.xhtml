@@ -147,7 +147,7 @@
                     onkeyup="formatarData(this)" onkeydown="return preventFormSubmit(event)"/>
  
                     <h:outputLabel for="cargo" value="Cargo:" />
-                    <p:selectOneMenu id="cargo" value="#{pessoaMB.pessoa.cargo}" required="false" style="width: 300px;">
+                        <p:selectOneMenu id="cargo" value="#{pessoaMB.pessoa.cargo}" required="false" style="width: 300px;">
                         <f:selectItem itemLabel="Selecione um cargo" itemValue="" />
                         <f:selectItems value="#{pessoaMB.listarCargosPessoa()}" var="cargo" itemLabel="#{cargo.nomeCargo}" itemValue="#{cargo}" onkeydown="return preventFormSubmit(event)"/>
                     </p:selectOneMenu>

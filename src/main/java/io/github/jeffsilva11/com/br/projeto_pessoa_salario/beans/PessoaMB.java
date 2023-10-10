@@ -12,12 +12,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.OneToMany;
 import javax.persistence.PersistenceContext;
 
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.client.RestTemplate;
 
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.exception.ResourceNotFoundException;
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.model.Cargo;
@@ -26,40 +26,47 @@ import io.github.jeffsilva11.com.br.projeto_pessoa_salario.repository.CargoRepos
 import io.github.jeffsilva11.com.br.projeto_pessoa_salario.repository.PessoaRepository;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 
 @Named(value = "pessoaMB")
 @ViewScoped
-@Slf4j
+//@Slf4j
 public class PessoaMB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Getter
     @Setter
-    private List<Pessoa> pessoas = new ArrayList<>();
-
+    private Pessoa pessoa = new Pessoa(); // Inicialize o objeto cargo aqui
+    //private Pessoa pessoa;
+           
     @Getter
     @Setter
     private Cargo cargo = new Cargo(); // Inicialize o objeto cargo aqui
+    //Cargo cargo = new Cargo(); // Inicialize o objeto cargo aqui
 
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Autowired
     private CargoRepository cargoRepository;
+    
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "cargo") 
+    private List<Pessoa> pessoas = new ArrayList<>();
 
     public List<Pessoa> listarTodos() {
         return pessoas = pessoaRepository.findAll();
         
     }
-        @PostConstruct
+    @PostConstruct
     public void init() {
-       // pessoa = new Pessoa();
+        pessoa = new Pessoa();
+        cargo = new Cargo();
         listarCargos();
         listaCargos = cargoRepository.findAll();
         listarTodos();
     }
+    
     //@Getter
     @Setter
     private List<Cargo> listaCargos = new ArrayList<>();
@@ -79,28 +86,12 @@ public class PessoaMB implements Serializable {
         return entityManager.createQuery("SELECT c FROM Cargo c order by nome_cargo", Cargo.class).getResultList();
    }
    
-    public void calcularSalario() {
-        restTemplate.put("http://localhost:8081/pessoas/calcular", null);
-        listarTodos();
-        log.info("Executado com sucesso");
-    }
-
-    public void recalcularSalario() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put("http://localhost:8081/pessoas/recalcular", null);
-        log.info("Executado com sucesso");
-    }
-
     public Integer getTamanhoDaLista() {
         return pessoas.size();
     }
     
     //MÉTODOS CRUD
-    
-    @Getter
-    @Setter
-    private Pessoa pessoa = new Pessoa(); // Inicialize o objeto cargo aqui
-        
+            
     @Autowired
     private PessoaRepository pessoaRepository;
       
@@ -114,7 +105,7 @@ public class PessoaMB implements Serializable {
 	     this.jdbcTemplate = jdbcTemplate;
 	    }
 	    
-    private void limpar() {
+    void limpar() {
       	pessoa = new Pessoa();
     }
     
@@ -243,7 +234,5 @@ public class PessoaMB implements Serializable {
         List<Pessoa> pessoas = listarPessoas(); // Chama o método para obter a lista
         return pessoas.size(); // Retorna o tamanho da lista
     }
-    
-    
     
 }

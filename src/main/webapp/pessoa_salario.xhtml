@@ -41,13 +41,15 @@
                 <ui:include src="barra_de_ferramentas.xhtml" />
          
     <h:form>
+
         <p:commandButton value="Voltar" onclick="window.location.href='http://localhost:8081/principal.xhtml';" styleClass="button-margin"/>
-        
+        <p:commandButton value="Calcular Salário" action="#{pessoaSalarioMB.calcularSalario}" ajax="true" styleClass="button-margin"/>
         <p:messages showDetail="false" closable="true" />
        
     <p:panelGrid columns="2">
 
         <p:panel header="Lista de Pessoa (#{pessoaMB.contarPessoas()})" style="text-align: center;">
+
 
            <p:dataTable id="pessoasTable" value="#{pessoaMB.listarPessoas()}" var="pessoa" 
                          paginator="true" rows="25" emptyMessage="Não há pessoas cadastradas."
@@ -65,6 +67,7 @@
                         <h:outputStylesheet name="css/pdf-export-styles.css"/>
                     </h:commandLink>                        
                     </f:facet>
+                
                 <p:column headerText="ID" style="width: 5%; text-align: left;">
                     <h:outputText value="#{pessoa.id}" />
                 </p:column>
@@ -76,14 +79,16 @@
                       <!-- <f:convertNumber type="currency" currencySymbol="R$" groupingUsed="true" />-->
                     </h:outputText>
                 </p:column>
-
-                 <!--Adicione uma coluna de ações -->
-                <p:column headerText="Ações" style="width: 119px;">
-                    <!--icon="ui-icon-search"-->
-                    <p:commandButton icon="ui-icon-search" title="Visualizar" action="#{pessoaMB.visualizarPessoa(pessoa.id)}" styleClass="button-margin"/>
-                    <p:commandButton icon="ui-icon-pencil" title="Editar" action="#{pessoaMB.visualizarPessoaEditar(pessoa.id)}" styleClass="button-margin"/>
-                    <p:commandButton icon="ui-icon-trash" title="Apagar" action="#{pessoaMB.visualizarPessoaApagar(pessoa.id)}" />
+                <p:column headerText="Salário" style="text-align: right; width: 119px;" >
+                    <h:outputText value="R$ #{pessoaSalarioMB.buscarSalario(pessoa.id)}" style="color: blue;">
+                        <f:convertNumber type="currency" currencySymbol="R$" pattern="#,##0.00"  />
+                    </h:outputText>
                 </p:column>
+
+
+                <!--<p:column headerText="SalárioPessoa" style="text-align: left;">
+                    <h:outputText value="#{pessoa.salario}" />
+                </p:column>-->
 
             </p:dataTable>
 
