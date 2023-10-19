@@ -1,5 +1,5 @@
 # Projeto_Gerenciador_Pessoas
-"Projeto web Spring Boot desenvolvido com Maven, utilizando Java, HTML, estilizado com Prime Faces e CSS e com suporte para uma API RESTful."
+"Projeto web Spring Boot desenvolvido com Maven, utilizando Java, HTML, estilizado com Prime Faces e CSS e com suporte para uma API REST."
 
 # Descrição
 
@@ -11,11 +11,11 @@ O projeto foi proposto como desafio em processo seletivo para desenvolvedor java
 
 •	PESSOAS > Calcular Salário
 
-•	CARGOS > Cadastrar Pessoa
+•	CARGOS > Cadastrar Cargo
 
 •	CARGOS > Listar, Alterar ou Remover
 
-•	USUÁRIOS > Cadastrar Pessoa
+•	USUÁRIOS > Cadastrar Usuário
 
 •	USUÁRIOS > Listar, Alterar ou Remover
 
@@ -52,8 +52,8 @@ As requisições (GET, POST, PUT, DELETE) das APIs REST de pessoas e cargos pode
 
 •	http://localhost:8081/api/cargos 
 
-Contato
- <p><b>você pode me encontrar em:</b></p>
+# Contato
+ <p><b>Você pode me encontrar em:</b></p>
   <a href="https://www.linkedin.com/in/jefferson-silva-dev11/">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white">
   </a> 
