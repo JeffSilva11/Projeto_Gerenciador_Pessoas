@@ -54,6 +54,6 @@ As requisições (GET, POST, PUT, DELETE) das APIs REST de pessoas e cargos pode
 
 Contato
  <p><b>você pode me encontrar em:</b></p>
-  <a href="www.linkedin.com/in/jefferson-silva-dev11/">
+  <a href="https://www.linkedin.com/in/jefferson-silva-dev11/">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white">
   </a> 
